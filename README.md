@@ -11,3 +11,11 @@ Next.js App on Firebase
   - [ ] Use function
   - [ ] Use authentication
   - [ ] Resources belong to user
+
+## Steps
+
+1. create next.js app
+
+```bash
+$ npx create-next-app@latest
+```
