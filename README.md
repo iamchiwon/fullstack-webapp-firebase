@@ -19,3 +19,13 @@ Next.js App on Firebase
 ```bash
 $ npx create-next-app@latest
 ```
+
+### 2. Use backend API in Next.js
+
+`/src/app/api/hello/route.ts`
+
+```ts
+export async function GET() {
+  return NextResponse.json({ message: "Hello from Next.js!" });
+}
+```
