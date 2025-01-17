@@ -3,8 +3,8 @@
 Next.js App on Firebase
 
 - Next.js
-  - [ ] frontend
-  - [ ] backend API
+  - [x] frontend
+  - [x] backend API
 - With Firebase:
   - [ ] Use database
   - [ ] Use storage
