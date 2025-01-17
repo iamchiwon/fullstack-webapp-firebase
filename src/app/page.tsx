@@ -7,7 +7,11 @@ export default function Home() {
   const [greeting, setGreeting] = useState("");
 
   const handleGreeting = async () => {
-    initFirebaseAdmin();
+    try {
+      await initFirebaseAdmin();
+    } catch (error) {
+      console.error(error);
+    }
     const response = await fetch("/api/hello");
     const data = await response.json();
     setGreeting(data.message);
