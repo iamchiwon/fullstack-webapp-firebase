@@ -6,7 +6,7 @@ Next.js App on Firebase
   - [x] frontend
   - [x] backend API
 - With Firebase:
-  - [ ] Use database
+  - [x] Use database
   - [ ] Use storage
   - [ ] Use function
   - [ ] Use authentication
@@ -37,4 +37,42 @@ export async function GET() {
 
 ```shell
 firebase apphosting:secrets:set firebaseadmin_config --project [project_id]
+```
+
+### 4. Add database
+
+- Frontend (Next.js)
+  1. handle function
+  2. Contoller function
+- Backend (Action)
+  1. TodoAction
+  2. backend infra (firestore)
+
+```ts
+// page.tsx
+const fetchTodoList = async () => {
+  const todos = await TodoController.getTodoList();
+  setTodoList(todos);
+};
+
+// ToDoController.ts
+const getTodoList = async () => {
+  return await getTodoListAction();
+};
+
+// TodoActions.ts
+export const getTodoListAction = async () => {
+  const todos = await databaseGetList("todos");
+  return todos.map(mapToToItem);
+};
+
+// infra/batabase.ts
+export const databaseGetList = async (ref: string) => {
+  const collection = db.collection(ref);
+  const snapshot = await collection.get();
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+};
 ```
