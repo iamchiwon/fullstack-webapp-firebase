@@ -61,6 +61,7 @@ const getTodoList = async () => {
 };
 
 // TodoActions.ts
+"use server";
 export const getTodoListAction = async () => {
   const todos = await databaseGetList("todos");
   return todos.map(mapToToItem);

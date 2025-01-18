@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getFirestore } from "firebase-admin/firestore";
 import { initFirebaseAdmin } from "./firebase_admin";
 

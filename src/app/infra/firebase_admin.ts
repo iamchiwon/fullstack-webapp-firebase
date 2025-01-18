@@ -3,8 +3,8 @@ import { credential } from "firebase-admin";
 import { initializeApp, ServiceAccount } from "firebase-admin/app";
 
 export const initFirebaseAdmin = async () => {
-  if (admin.apps.length > 0) {
-    return admin.apps[0];
+  if (admin.apps && admin.apps.length > 0) {
+    return admin.apps[0]!;
   }
 
   const serviceAccountString = process.env.FIREBASEADMIN_CONFIG;
