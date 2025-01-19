@@ -2,8 +2,7 @@
 import { getFirestore } from "firebase-admin/firestore";
 import { initFirebaseAdmin } from "./firebase_admin";
 
-const app = await initFirebaseAdmin();
-const db = await getFirestore(app);
+const db = await initFirebaseAdmin().then(getFirestore);
 
 export const databaseCreateItem = async <T>(ref: string, item: T) => {
   const collection = db.collection(ref);
