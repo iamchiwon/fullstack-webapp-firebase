@@ -3,8 +3,8 @@
 import { Box, Button, Checkbox, Flex, TextField } from "@radix-ui/themes";
 import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
-import { ToDoItem } from "../common/types/ToDoItem";
-import TodoController from "../controller/TodoController";
+import { ToDoItem } from "@/common/types/ToDoItem";
+import TodoController from "@/controller/TodoController";
 
 export const ToDoList = () => {
   const [todo, setTodo] = useState("");

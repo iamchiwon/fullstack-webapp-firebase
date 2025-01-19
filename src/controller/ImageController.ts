@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ImageItem } from "../common/types/ImageItem";
+import { ImageItem } from "@/common/types/ImageItem";
 import {
   databaseCreateItem,
   databaseDeleteItem,
   databaseGetList,
-} from "../backend/database";
-import { storageUploadFile } from "../backend/storage";
+} from "@/backend/database";
+import { storageUploadFile } from "@/backend/storage";
 
 const getImageList = async () => {
   const images = await databaseGetList("images");

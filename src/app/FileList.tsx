@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { ImageItem } from "../common/types/ImageItem";
-import { fileSizeFormatter } from "../common/utils/formatter";
+import { ImageItem } from "@/common/types/ImageItem";
+import { fileSizeFormatter } from "@/common/utils/formatter";
+import ImageController from "@/controller/ImageController";
 import { Box, Button, Dialog, Flex } from "@radix-ui/themes";
-import ImageController from "../controller/ImageController";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export const FileList = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -63,11 +63,17 @@ const ImageView = ({ item }: { item: ImageItem }) => {
     <Dialog.Root>
       <Dialog.Trigger>
         <Image
-          className="cursor-pointer"
+          className="cursor-pointer rounded-lg"
           src={item.url}
           alt={item.path}
           width={80}
           height={80}
+          priority={true}
+          style={{
+            width: "80px",
+            height: "80px",
+            objectFit: "cover",
+          }}
         />
       </Dialog.Trigger>
 
@@ -78,7 +84,18 @@ const ImageView = ({ item }: { item: ImageItem }) => {
         </Dialog.Description>
 
         <Flex direction="column" gap="3">
-          <Image src={item.url} alt={item.path} width={300} height={300} />
+          <Image
+            src={item.url}
+            alt={item.path}
+            width={0}
+            height={0}
+            style={{
+              width: "auto",
+              height: "300px",
+              objectFit: "contain",
+            }}
+            unoptimized
+          />
         </Flex>
 
         <Flex gap="3" mt="4" justify="end">

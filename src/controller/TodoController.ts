@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ToDoItem } from "../common/types/ToDoItem";
+import { ToDoItem } from "@/common/types/ToDoItem";
 import {
   databaseCreateItem,
   databaseDeleteItem,
   databaseGetItem,
   databaseGetList,
   databaseUpdateItem,
-} from "../backend/database";
+} from "@/backend/database";
 
 const getTodoList = async () => {
   const todos = await databaseGetList("todos");
