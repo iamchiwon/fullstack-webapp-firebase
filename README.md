@@ -7,7 +7,7 @@ Next.js App on Firebase
   - [x] backend API
 - With Firebase:
   - [x] Use database
-  - [ ] Use storage
+  - [x] Use storage
   - [ ] Use function
   - [ ] Use authentication
   - [ ] Resources belong to user
@@ -61,7 +61,7 @@ const getTodoList = async () => {
 };
 
 // TodoActions.ts
-"use server";
+("use server");
 export const getTodoListAction = async () => {
   const todos = await databaseGetList("todos");
   return todos.map(mapToToItem);
@@ -75,5 +75,20 @@ export const databaseGetList = async (ref: string) => {
     id: doc.id,
     ...doc.data(),
   }));
+};
+```
+
+### 5. Add storage
+
+```ts
+export const storageUploadFile = async (path: string, file: File) => {
+  const storage = await getStorage();
+  const bucket = storage.bucket();
+  const arrayBuffer = await file.arrayBuffer();
+  const fileBuffer = Buffer.from(arrayBuffer);
+  const blob = bucket.file(`${path}/${file.name}`);
+  await blob.save(fileBuffer, { public: true });
+  const url = await getDownloadURL(blob);
+  return url;
 };
 ```

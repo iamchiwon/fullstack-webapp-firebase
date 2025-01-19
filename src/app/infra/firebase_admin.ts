@@ -1,10 +1,15 @@
-import * as admin from "firebase-admin";
-import { credential } from "firebase-admin";
+"use server";
+
+import admin, { credential } from "firebase-admin";
 import { initializeApp, ServiceAccount } from "firebase-admin/app";
 
+const isInitialized = () => {
+  return admin.apps.length > 0;
+};
+
 export const initFirebaseAdmin = async () => {
-  if (admin.apps && admin.apps.length > 0) {
-    return admin.apps[0]!;
+  if (isInitialized()) {
+    return admin.app();
   }
 
   const serviceAccountString = process.env.FIREBASEADMIN_CONFIG;
@@ -15,6 +20,7 @@ export const initFirebaseAdmin = async () => {
 
   const app = initializeApp({
     credential: credential.cert(serviceAccount),
+    storageBucket: "fullstack-webapp-firebase.firebasestorage.app",
   });
   return app;
 };
