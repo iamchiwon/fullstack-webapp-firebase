@@ -6,8 +6,8 @@ import {
   databaseCreateItem,
   databaseDeleteItem,
   databaseGetList,
-} from "../infra/database";
-import { storageUploadFile } from "../infra/storage";
+} from "../backend/database";
+import { storageUploadFile } from "../backend/storage";
 
 export const getImagesListAction = async () => {
   const images = await databaseGetList("images");

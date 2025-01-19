@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
-import { initFirebaseAdmin } from "./infra/firebase_admin";
+import { initFirebaseAdmin } from "./backend/initialize";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

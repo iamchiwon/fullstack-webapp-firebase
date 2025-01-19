@@ -7,20 +7,17 @@ const isInitialized = () => {
   return admin.apps.length > 0;
 };
 
-export const initFirebaseAdmin = async () => {
-  if (isInitialized()) {
-    return admin.app();
-  }
-
+const getConfig = () => {
   const serviceAccountString = process.env.FIREBASEADMIN_CONFIG;
   if (!serviceAccountString) {
     throw new Error("FIREBASEADMIN_CONFIG is not set");
   }
   const serviceAccount: ServiceAccount = JSON.parse(serviceAccountString);
+  return serviceAccount;
+};
 
-  const app = initializeApp({
-    credential: credential.cert(serviceAccount),
-    storageBucket: "fullstack-webapp-firebase.firebasestorage.app",
-  });
-  return app;
+export const initFirebaseAdmin = async () => {
+  if (isInitialized()) return;
+  const cert = credential.cert(getConfig());
+  initializeApp({ credential: cert });
 };
