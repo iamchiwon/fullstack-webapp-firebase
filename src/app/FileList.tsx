@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ImageItem } from "./common/types/ImageItem";
 import { fileSizeFormatter } from "./common/utils/formatter";
-import { Box, Button, Flex } from "@radix-ui/themes";
+import { Box, Button, Dialog, Flex } from "@radix-ui/themes";
 import ImageController from "./controller/ImageController";
 import Image from "next/image";
 
@@ -46,7 +46,7 @@ export const FileList = () => {
       <Flex direction="column" gap="2">
         {fileList.map((item) => (
           <Flex gap="2" align="center" key={item.id}>
-            <Image src={item.url} alt={item.path} width={80} height={80} />
+            <ImageView item={item} />
             {item.path} ({fileSizeFormatter(item.size)})
             <Button color="red" onClick={() => handleDelete(item.id)}>
               DEL
@@ -55,5 +55,38 @@ export const FileList = () => {
         ))}
       </Flex>
     </Box>
+  );
+};
+
+const ImageView = ({ item }: { item: ImageItem }) => {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>
+        <Image
+          className="cursor-pointer"
+          src={item.url}
+          alt={item.path}
+          width={80}
+          height={80}
+        />
+      </Dialog.Trigger>
+
+      <Dialog.Content maxWidth="450px">
+        <Dialog.Title>{item.path}</Dialog.Title>
+        <Dialog.Description size="2" mb="4">
+          {fileSizeFormatter(item.size)}
+        </Dialog.Description>
+
+        <Flex direction="column" gap="3">
+          <Image src={item.url} alt={item.path} width={300} height={300} />
+        </Flex>
+
+        <Flex gap="3" mt="4" justify="end">
+          <Dialog.Close>
+            <Button>CLOSE</Button>
+          </Dialog.Close>
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 };
