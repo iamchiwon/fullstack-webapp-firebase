@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { ImageItem } from "./common/types/ImageItem";
-import { fileSizeFormatter } from "./common/utils/formatter";
+import { ImageItem } from "../common/types/ImageItem";
+import { fileSizeFormatter } from "../common/utils/formatter";
 import { Box, Button, Dialog, Flex } from "@radix-ui/themes";
-import ImageController from "./controller/ImageController";
+import ImageController from "../controller/ImageController";
 import Image from "next/image";
 
 export const FileList = () => {
