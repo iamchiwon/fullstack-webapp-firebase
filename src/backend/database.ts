@@ -2,16 +2,22 @@
 "use server";
 
 import { getFirestore } from "firebase-admin/firestore";
+import { ensureFirebaseInitialized } from "./initialize";
+
+export const getDB = async () => {
+  await ensureFirebaseInitialized();
+  return getFirestore();
+};
 
 export const databaseCreateItem = async <T>(ref: string, item: T) => {
-  const db = await getFirestore();
+  const db = await getDB();
   const collection = db.collection(ref);
   const doc = await collection.add(item as any);
   return doc.id;
 };
 
 export const databaseGetList = async (ref: string) => {
-  const db = await getFirestore();
+  const db = await getDB();
   const collection = db.collection(ref);
   const snapshot = await collection.get();
   return snapshot.docs.map((doc) => ({
@@ -21,7 +27,7 @@ export const databaseGetList = async (ref: string) => {
 };
 
 export const databaseGetItem = async (ref: string, id: string) => {
-  const db = await getFirestore();
+  const db = await getDB();
   const collection = db.collection(ref);
   const doc = await collection.doc(id).get();
   return {
@@ -36,13 +42,13 @@ export const databaseUpdateItem = async <T>(
   item: T,
   merge: boolean = true
 ) => {
-  const db = await getFirestore();
+  const db = await getDB();
   const collection = db.collection(ref);
   await collection.doc(id).update(item as any, { merge });
 };
 
 export const databaseDeleteItem = async (ref: string, id: string) => {
-  const db = await getFirestore();
+  const db = await getDB();
   const collection = db.collection(ref);
   await collection.doc(id).delete();
 };

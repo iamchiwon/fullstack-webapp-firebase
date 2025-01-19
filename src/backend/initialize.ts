@@ -1,13 +1,13 @@
 "use server";
 
-import admin, { credential } from "firebase-admin";
-import { initializeApp, ServiceAccount } from "firebase-admin/app";
+import admin from "firebase-admin";
+import { type ServiceAccount } from "firebase-admin/app";
 
-const isInitialized = () => {
+const _isInitialized = () => {
   return admin.apps.length > 0;
 };
 
-const getConfig = () => {
+const _getConfig = () => {
   const serviceAccountString = process.env.FIREBASEADMIN_CONFIG;
   if (!serviceAccountString) {
     throw new Error("FIREBASEADMIN_CONFIG is not set");
@@ -16,8 +16,14 @@ const getConfig = () => {
   return serviceAccount;
 };
 
-export const initFirebaseAdmin = async () => {
-  if (isInitialized()) return;
-  const cert = credential.cert(getConfig());
-  initializeApp({ credential: cert });
+const _initFirebaseAdmin = async () => {
+  const config = _getConfig();
+  const cert = admin.credential.cert(config);
+  admin.initializeApp({ credential: cert });
+};
+
+export const ensureFirebaseInitialized = async () => {
+  if (!_isInitialized()) {
+    await _initFirebaseAdmin();
+  }
 };

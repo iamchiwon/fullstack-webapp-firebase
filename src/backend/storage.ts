@@ -1,6 +1,15 @@
 "use server";
 
-import { getDownloadURL, getStorage } from "firebase-admin/storage";
+import {
+  getStorage as _getStorage,
+  getDownloadURL,
+} from "firebase-admin/storage";
+import { ensureFirebaseInitialized } from "./initialize";
+
+const getStorage = async () => {
+  await ensureFirebaseInitialized();
+  return _getStorage();
+};
 
 export const storageUploadFile = async (path: string, file: File) => {
   const storage = await getStorage();

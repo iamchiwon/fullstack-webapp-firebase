@@ -1,4 +1,3 @@
-import { initFirebaseAdmin } from "@/backend/initialize";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
@@ -25,8 +24,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  initFirebaseAdmin();
-
   return (
     <html lang="en">
       <body
