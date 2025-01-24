@@ -2,10 +2,10 @@
 "use server";
 
 import { getFirestore } from "firebase-admin/firestore";
-import { ensureFirebaseInitialized } from "./initialize";
+import { ensureFirebaseAdminInitialized } from "./initializeAdmin";
 
-export const getDB = async () => {
-  await ensureFirebaseInitialized();
+const getDB = async () => {
+  await ensureFirebaseAdminInitialized();
   return getFirestore();
 };
 

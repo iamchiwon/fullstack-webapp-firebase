@@ -9,7 +9,7 @@ Next.js App on Firebase
   - [x] Use database
   - [x] Use storage
   - [ ] Use function
-  - [ ] Use authentication
+  - [x] Use authentication
   - [ ] Resources belong to user
 
 ## Steps
@@ -92,3 +92,9 @@ export const storageUploadFile = async (path: string, file: File) => {
   return url;
 };
 ```
+
+### 6. Add authentication
+
+- signup : use admin sdk
+- login : use client sdk
+- refrethToken : use SecureToken [endpoint](https://securetoken.googleapis.com/v1/token) of Firebase Authentication

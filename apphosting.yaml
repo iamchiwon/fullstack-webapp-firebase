@@ -1,3 +1,7 @@
 env:
   - variable: FIREBASEADMIN_CONFIG
     secret: firebaseadmin_config
+  - variable: FIREBASECLIENT_CONFIG
+    secret: firebaseclient_config
+  - variable: FIREBASEWEB_API_KEY
+    secret: firebaseweb_api_key

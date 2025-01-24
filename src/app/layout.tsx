@@ -1,8 +1,11 @@
-import { Theme } from "@radix-ui/themes";
+import { Box, Flex, Separator, Text, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { LoginButton } from "./components/LoginButton";
+import { SignupButton } from "./components/SignupButton";
+import { LogoutButton } from "./components/LogoutButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +32,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Theme>{children}</Theme>
+        <Theme>
+          <Box>
+            <Flex align="baseline" justify="between" px="6" pt="4" pb="2">
+              <Text className="text-2xl font-bold">Logo</Text>
+              <Flex gap="4">
+                <LoginButton />
+                <LogoutButton />
+                <SignupButton />
+              </Flex>
+            </Flex>
+            <Separator my="3" size="4" />
+          </Box>
+          <Box>{children}</Box>
+        </Theme>
       </body>
     </html>
   );

@@ -22,7 +22,7 @@ const _initFirebaseAdmin = async () => {
   admin.initializeApp({ credential: cert });
 };
 
-export const ensureFirebaseInitialized = async () => {
+export const ensureFirebaseAdminInitialized = async () => {
   if (!_isInitialized()) {
     await _initFirebaseAdmin();
   }

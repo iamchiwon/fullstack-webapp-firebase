@@ -4,10 +4,10 @@ import {
   getStorage as _getStorage,
   getDownloadURL,
 } from "firebase-admin/storage";
-import { ensureFirebaseInitialized } from "./initialize";
+import { ensureFirebaseAdminInitialized } from "./initializeAdmin";
 
 const getStorage = async () => {
-  await ensureFirebaseInitialized();
+  await ensureFirebaseAdminInitialized();
   return _getStorage();
 };
 
