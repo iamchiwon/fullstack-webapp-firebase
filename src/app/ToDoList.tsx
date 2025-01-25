@@ -5,10 +5,20 @@ import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ToDoItem } from "@/common/types/ToDoItem";
 import TodoController from "@/controller/TodoController";
+import { useUserState } from "@/common/states/UserState";
 
 export const ToDoList = () => {
+  const { uid } = useUserState();
   const [todo, setTodo] = useState("");
   const [todoList, setTodoList] = useState<ToDoItem[]>([]);
+
+  useEffect(() => {
+    if (!uid) {
+      setTodoList([]);
+      return;
+    }
+    fetchTodoList();
+  }, [uid]);
 
   const handleAddTodo = async () => {
     await TodoController.addTodo(todo);
@@ -31,9 +41,9 @@ export const ToDoList = () => {
     fetchTodoList();
   };
 
-  useEffect(() => {
-    fetchTodoList();
-  }, []);
+  if (!uid) {
+    return null;
+  }
 
   return (
     <Box pt="4">
