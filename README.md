@@ -95,6 +95,6 @@ export const storageUploadFile = async (path: string, file: File) => {
 
 ### 6. Add authentication
 
-- signup : use admin sdk
-- login : use client sdk
-- refrethToken : use SecureToken [endpoint](https://securetoken.googleapis.com/v1/token) of Firebase Authentication
+- use Firebase Auth REST API ([Reference](https://firebase.google.com/docs/reference/rest/auth))
+- signup : signUp then update profile
+- signin : signIn then lookup profile

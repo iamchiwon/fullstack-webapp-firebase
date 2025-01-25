@@ -16,6 +16,17 @@ export const databaseCreateItem = async <T>(ref: string, item: T) => {
   return doc.id;
 };
 
+export const databaseCreateItemWithId = async <T>(
+  ref: string,
+  id: string,
+  item: T
+) => {
+  const db = await getDB();
+  const collection = db.collection(ref);
+  await collection.doc(id).set(item as any);
+  return id;
+};
+
 export const databaseGetList = async (ref: string) => {
   const db = await getDB();
   const collection = db.collection(ref);

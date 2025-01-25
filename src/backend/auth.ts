@@ -1,38 +1,47 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import admin from "firebase-admin";
-import { ensureFirebaseAdminInitialized } from "./initializeAdmin";
-import { ensureFirebaseClientInitialized } from "./initializeClient";
-import { getApp } from "firebase/app";
-import { getAuth as _getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { UserInfo } from "@/common/types/UserInfo";
 
-const getAuth = async () => {
-  await ensureFirebaseAdminInitialized();
-  return admin.auth();
-};
-
-const getClientAuth = async () => {
-  await ensureFirebaseClientInitialized();
-  const app = getApp();
-  const auth = await _getAuth(app);
-  return auth;
-};
+const IDENTIFY_TOOLKIT_BASE_URL =
+  "https://identitytoolkit.googleapis.com/v1/accounts";
+const SECURE_TOKEN_BASE_URL = "https://securetoken.googleapis.com/v1/token";
+const FIREBASEWEB_API_KEY = process.env.FIREBASEWEB_API_KEY;
 
 export const authSignUp = async (
   name: string,
   email: string,
   password: string
 ) => {
-  const auth = await getAuth();
-  const userRecord = await auth.createUser({
-    email,
-    password,
-    displayName: name,
+  const signupEndPoint = `${IDENTIFY_TOOLKIT_BASE_URL}:signUp?key=${FIREBASEWEB_API_KEY}`;
+  const response = await fetch(signupEndPoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password,
+      returnSecureToken: true,
+    }),
   });
-  const uid = userRecord.uid;
-  return { uid };
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(`Sign up error: ${error.error.message}`);
+  }
+
+  const data = await response.json();
+  const idToken = data.idToken;
+  const profile = await updateUserInfo(idToken, { displayName: name });
+  const userInfo: UserInfo = {
+    uid: data.localId,
+    email: email,
+    displayName: profile.displayName,
+    token: data.idToken,
+    refreshToken: data.refreshToken,
+  };
+
+  return userInfo;
 };
 
 export const authLogIn = async (email: string, password: string) => {
@@ -40,47 +49,50 @@ export const authLogIn = async (email: string, password: string) => {
     throw new Error("Invalid email or password");
   }
 
-  const auth = await getClientAuth();
-  const userCredential = await signInWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
-  const user = userCredential.user;
+  const loginEndPoint = `${IDENTIFY_TOOLKIT_BASE_URL}:signInWithPassword?key=${FIREBASEWEB_API_KEY}`;
+  const response = await fetch(loginEndPoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password,
+      returnSecureToken: true,
+    }),
+  });
 
-  const uid = user.uid;
-  const userEmail = user.email;
-  const displayName = user.displayName;
-  const idToken = await user.getIdToken();
-  const refreshToken = user.refreshToken;
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(`Login error: ${error.error.message}`);
+  }
+
+  const data = await response.json();
+  const idToken = data.idToken;
+  const profile = await fetchUserInfo(idToken);
 
   const userInfo: UserInfo = {
-    uid,
-    email: userEmail ?? "",
-    displayName: displayName ?? "",
+    uid: data.localId,
+    email: profile.users[0].email,
+    displayName: profile.users[0].displayName,
     token: idToken,
-    refreshToken: refreshToken,
+    refreshToken: data.refreshToken,
   };
-
   return userInfo;
 };
 
 export const authRefreshToken = async (refreshToken: string) => {
-  const FIREBASE_API_KEY = process.env.FIREBASEWEB_API_KEY;
-
-  const response = await fetch(
-    `https://securetoken.googleapis.com/v1/token?key=${FIREBASE_API_KEY}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        grant_type: "refresh_token",
-        refresh_token: refreshToken,
-      }),
-    }
-  );
+  const refreshTokenEndPoint = `${SECURE_TOKEN_BASE_URL}?key=${FIREBASEWEB_API_KEY}`;
+  const response = await fetch(refreshTokenEndPoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    }),
+  });
 
   if (!response.ok) {
     const error = await response.json();
@@ -92,4 +104,63 @@ export const authRefreshToken = async (refreshToken: string) => {
     token: data.id_token,
     refreshToken: data.refresh_token,
   };
+};
+
+export const authValidateToken = async (idToken: string) => {
+  try {
+    await fetchUserInfo(idToken);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+const updateUserInfo = async (
+  idToken: string,
+  profile: {
+    displayName?: string;
+    photoUrl?: string;
+  }
+) => {
+  const updateEndPoint = `${IDENTIFY_TOOLKIT_BASE_URL}:update?key=${FIREBASEWEB_API_KEY}`;
+  const response = await fetch(updateEndPoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      idToken,
+      displayName: profile.displayName,
+      photoUrl: profile.photoUrl,
+      returnSecureToken: false,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(`Update user info error: ${error.error.message}`);
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+const fetchUserInfo = async (idToken: string) => {
+  const lookupEndPoint = `${IDENTIFY_TOOLKIT_BASE_URL}:lookup?key=${FIREBASEWEB_API_KEY}`;
+  const response = await fetch(lookupEndPoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ idToken }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(`Fetch user info error: ${error.error.message}`);
+  }
+
+  const data = await response.json();
+  return data;
 };
