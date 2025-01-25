@@ -8,7 +8,7 @@ Next.js App on Firebase
 - With Firebase:
   - [x] Use database
   - [x] Use storage
-  - ~~[ ] Use function~~
+  - [ ] ~~Use function~~
   - [x] Use authentication
   - [x] Resources belong to user
 
