@@ -7,9 +7,13 @@ import {
   databaseGetList,
   databaseUpdateItem,
 } from "@/backend/database";
+import { useUserState } from "@/common/states/UserState";
+
+const userState = useUserState;
 
 const getTodoList = async () => {
-  const todos = await databaseGetList("todos");
+  const { uid } = userState.getState();
+  const todos = await databaseGetList(`userdata/todos/${uid}`);
   return todos.map(
     (todo: any) =>
       ({
@@ -21,16 +25,24 @@ const getTodoList = async () => {
 };
 
 const addTodo = async (content: string) => {
-  return await databaseCreateItem("todos", { content, done: false });
+  const { uid } = userState.getState();
+  return await databaseCreateItem(`userdata/todos/${uid}`, {
+    content,
+    done: false,
+  });
 };
 
 const deleteTodo = async (id: string) => {
-  return await databaseDeleteItem("todos", id);
+  const { uid } = userState.getState();
+  return await databaseDeleteItem(`userdata/todos/${uid}`, id);
 };
 
 const toggleTodo = async (id: string) => {
-  const item = (await databaseGetItem("todos", id)) as ToDoItem;
-  return await databaseUpdateItem("todos", id, { done: !item.done });
+  const { uid } = userState.getState();
+  const item = (await databaseGetItem(`userdata/todos/${uid}`, id)) as ToDoItem;
+  return await databaseUpdateItem(`userdata/todos/${uid}`, id, {
+    done: !item.done,
+  });
 };
 
 const TodoController = {
