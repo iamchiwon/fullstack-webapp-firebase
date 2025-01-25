@@ -1,13 +1,12 @@
 "use client";
 
-import { authSignUp } from "@/backend/auth";
 import { useUserState } from "@/common/states/UserState";
-import { UserInfo } from "@/common/types/UserInfo";
+import AuthController from "@/controllers/AuthController";
 import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 
 export const SignupButton = () => {
-  const { isLogin, setUserInfo } = useUserState();
+  const { isLogin } = useUserState();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,8 +32,7 @@ export const SignupButton = () => {
       alert("Password and password again are not the same");
       return;
     }
-    const userInfo: UserInfo = await authSignUp(name, email, password);
-    setUserInfo(userInfo);
+    AuthController.signup(name, email, password);
   };
 
   return (

@@ -1,5 +1,3 @@
-"use server";
-
 import {
   getStorage as _getStorage,
   getDownloadURL,

@@ -1,5 +1,3 @@
-"use server";
-
 import { UserInfo } from "@/common/types/UserInfo";
 
 const IDENTIFY_TOOLKIT_BASE_URL =
@@ -32,7 +30,7 @@ export const authSignUp = async (
 
   const data = await response.json();
   const idToken = data.idToken;
-  const profile = await updateUserInfo(idToken, { displayName: name });
+  const profile = await authUpdateUserProfile(idToken, { displayName: name });
   const userInfo: UserInfo = {
     uid: data.localId,
     email: email,
@@ -69,7 +67,7 @@ export const authLogIn = async (email: string, password: string) => {
 
   const data = await response.json();
   const idToken = data.idToken;
-  const profile = await fetchUserInfo(idToken);
+  const profile = await authGetUserProfile(idToken);
 
   const userInfo: UserInfo = {
     uid: data.localId,
@@ -106,17 +104,7 @@ export const authRefreshToken = async (refreshToken: string) => {
   };
 };
 
-export const authValidateToken = async (idToken: string) => {
-  try {
-    await fetchUserInfo(idToken);
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-};
-
-const updateUserInfo = async (
+export const authUpdateUserProfile = async (
   idToken: string,
   profile: {
     displayName?: string;
@@ -146,7 +134,7 @@ const updateUserInfo = async (
   return data;
 };
 
-const fetchUserInfo = async (idToken: string) => {
+export const authGetUserProfile = async (idToken: string) => {
   const lookupEndPoint = `${IDENTIFY_TOOLKIT_BASE_URL}:lookup?key=${FIREBASEWEB_API_KEY}`;
   const response = await fetch(lookupEndPoint, {
     method: "POST",
@@ -163,4 +151,9 @@ const fetchUserInfo = async (idToken: string) => {
 
   const data = await response.json();
   return data;
+};
+
+export const getUserIdFromToken = async (idToken: string) => {
+  const profile = await authGetUserProfile(idToken);
+  return profile.users[0].localId;
 };

@@ -1,5 +1,3 @@
-"use server";
-
 import admin from "firebase-admin";
 import { type ServiceAccount } from "firebase-admin/app";
 

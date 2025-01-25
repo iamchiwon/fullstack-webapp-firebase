@@ -4,7 +4,7 @@ import { Box, Button, Checkbox, Flex, TextField } from "@radix-ui/themes";
 import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ToDoItem } from "@/common/types/ToDoItem";
-import TodoController from "@/controller/TodoController";
+import TodoController from "@/controllers/TodoController";
 import { useUserState } from "@/common/states/UserState";
 
 export const ToDoList = () => {

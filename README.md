@@ -12,6 +12,46 @@ Next.js App on Firebase
   - [x] Use authentication
   - [ ] Resources belong to user
 
+## Next Architecture
+
+#### Frontend
+
+- web client
+- use hook or handlers
+- call Controllers
+
+#### Controller
+
+- `client component`
+- access global state
+- call Services
+- handle response from Service
+
+#### Services
+
+- `server component`
+- call server actions
+- handle exceptions (from actions)
+- convert result as response JSON
+
+```ts
+type Response<T> =
+  | {
+      result: "success";
+      data: T;
+    }
+  | {
+      result: "error";
+      message: string;
+    };
+```
+
+#### Actions
+
+- access environments
+- backend logic
+- throw exceptions
+
 ## Steps
 
 1. create next.js app

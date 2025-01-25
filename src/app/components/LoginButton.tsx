@@ -1,13 +1,12 @@
 "use client";
 
-import { authLogIn } from "@/backend/auth";
 import { useUserState } from "@/common/states/UserState";
-import { UserInfo } from "@/common/types/UserInfo";
+import AuthController from "@/controllers/AuthController";
 import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 
 export const LoginButton = () => {
-  const { isLogin, setUserInfo } = useUserState();
+  const { isLogin } = useUserState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoginAvailable, setIsLoginAvailable] = useState(false);
@@ -19,8 +18,7 @@ export const LoginButton = () => {
   if (isLogin) return null;
 
   const login = async () => {
-    const userInfo: UserInfo = await authLogIn(email, password);
-    setUserInfo(userInfo);
+    await AuthController.login(email, password);
   };
 
   return (

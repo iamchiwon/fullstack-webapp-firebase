@@ -1,6 +1,6 @@
 import { ImageItem } from "@/common/types/ImageItem";
 import { fileSizeFormatter } from "@/common/utils/formatter";
-import ImageController from "@/controller/ImageController";
+import ImageController from "@/controllers/ImageController";
 import { Box, Button, Dialog, Flex } from "@radix-ui/themes";
 import Image from "next/image";
 import { useEffect, useState } from "react";
