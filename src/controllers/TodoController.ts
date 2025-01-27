@@ -1,7 +1,6 @@
 "use client";
 
 import { useUserState } from "@/common/states/UserState";
-import { ToDoItem } from "@/common/types/ToDoItem";
 import {
   todoServiceAddTodo,
   todoServiceDeleteTodo,
@@ -14,18 +13,18 @@ const userState = useUserState;
 const getTodoList = async () => {
   const { token } = userState.getState();
   const response = await todoServiceGetList(token);
-  if (response.result === "error") {
+  if (!response.ok) {
     console.error(response.message);
     return [];
   }
-  const list: ToDoItem[] = response.data ?? [];
+  const list = response.data;
   return list;
 };
 
 const addTodo = async (content: string) => {
   const { token } = userState.getState();
   const response = await todoServiceAddTodo(token, content);
-  if (response.result === "error") {
+  if (!response.ok) {
     console.error(response.message);
     return -1;
   }
@@ -36,7 +35,7 @@ const addTodo = async (content: string) => {
 const deleteTodo = async (id: string) => {
   const { token } = userState.getState();
   const response = await todoServiceDeleteTodo(token, id);
-  if (response.result === "error") {
+  if (!response.ok) {
     console.error(response.message);
     return false;
   }
@@ -46,7 +45,7 @@ const deleteTodo = async (id: string) => {
 const toggleTodo = async (id: string) => {
   const { token } = userState.getState();
   const response = await todoServiceToggleTodo(token, id);
-  if (response.result === "error") {
+  if (!response.ok) {
     console.error(response.message);
     return false;
   }

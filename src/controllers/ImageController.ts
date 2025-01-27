@@ -8,12 +8,8 @@ import {
 
 const getImageList = async () => {
   const response = await imagesServiceGetList();
-  if (response.result === "error") {
+  if (!response.ok) {
     console.error(response.message);
-    return [];
-  }
-  if (!response.data) {
-    console.error("No image list");
     return [];
   }
   const list = response.data;
@@ -22,7 +18,7 @@ const getImageList = async () => {
 
 const uploadImage = async (file: File) => {
   const response = await imagesServiceUpload(file);
-  if (response.result === "error") {
+  if (!response.ok) {
     console.error(response.message);
     return false;
   }
@@ -31,7 +27,7 @@ const uploadImage = async (file: File) => {
 
 const deleteImage = async (id: string) => {
   const response = await imagesServiceDelete(id);
-  if (response.result === "error") {
+  if (!response.ok) {
     console.error(response.message);
     return false;
   }

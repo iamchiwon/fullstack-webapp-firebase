@@ -1,5 +1,9 @@
 "use server";
 
+import {
+  ActionResponseError,
+  ActionResponseSuccess,
+} from "@/common/types/ActionResponse";
 import { ImageItem } from "@/common/types/ImageItem";
 import {
   databaseCreateItem,
@@ -11,15 +15,9 @@ import { storageUploadFile } from "@/libs/firebase/storage";
 export const imagesServiceGetList = async () => {
   try {
     const images = await databaseGetList<ImageItem>("images");
-    return {
-      result: "success",
-      data: images,
-    };
+    return ActionResponseSuccess<ImageItem[]>(images);
   } catch (error) {
-    return {
-      result: "error",
-      message: error instanceof Error ? error.message : "Unknown error",
-    };
+    return ActionResponseError<ImageItem[]>(error);
   }
 };
 
@@ -32,27 +30,17 @@ export const imagesServiceUpload = async (file: File) => {
       url,
     };
     await databaseCreateItem("images", data);
-    return {
-      result: "success",
-    };
+    return ActionResponseSuccess();
   } catch (error) {
-    return {
-      result: "error",
-      message: error instanceof Error ? error.message : "Unknown error",
-    };
+    return ActionResponseError(error);
   }
 };
 
 export const imagesServiceDelete = async (id: string) => {
   try {
     await databaseDeleteItem("images", id);
-    return {
-      result: "success",
-    };
+    return ActionResponseSuccess();
   } catch (error) {
-    return {
-      result: "error",
-      message: error instanceof Error ? error.message : "Unknown error",
-    };
+    return ActionResponseError(error);
   }
 };

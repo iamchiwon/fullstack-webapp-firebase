@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import {
+  ActionResponseError,
+  ActionResponseSuccess,
+} from "@/common/types/ActionResponse";
 import { ToDoItem } from "@/common/types/ToDoItem";
 import { getUserIdFromToken } from "@/libs/firebase/auth";
 import {
@@ -15,15 +19,9 @@ export const todoServiceGetList = async (token: string) => {
   try {
     const uid = await getUserIdFromToken(token);
     const list = await databaseGetList<ToDoItem>(`userdata/todos/${uid}`);
-    return {
-      result: "success",
-      data: list,
-    };
+    return ActionResponseSuccess<ToDoItem[]>(list);
   } catch (error) {
-    return {
-      result: "error",
-      message: error instanceof Error ? error.message : "Unknown error",
-    };
+    return ActionResponseError<ToDoItem[]>(error);
   }
 };
 
@@ -34,15 +32,9 @@ export const todoServiceAddTodo = async (token: string, content: string) => {
       content,
       done: false,
     });
-    return {
-      result: "success",
-      data: data,
-    };
+    return ActionResponseSuccess<string>(data);
   } catch (error) {
-    return {
-      result: "error",
-      message: error instanceof Error ? error.message : "Unknown error",
-    };
+    return ActionResponseError<string>(error);
   }
 };
 
@@ -50,14 +42,9 @@ export const todoServiceDeleteTodo = async (token: string, id: string) => {
   try {
     const uid = await getUserIdFromToken(token);
     await databaseDeleteItem(`userdata/todos/${uid}`, id);
-    return {
-      result: "success",
-    };
+    return ActionResponseSuccess();
   } catch (error) {
-    return {
-      result: "error",
-      message: error instanceof Error ? error.message : "Unknown error",
-    };
+    return ActionResponseError(error);
   }
 };
 
@@ -68,13 +55,8 @@ export const todoServiceToggleTodo = async (token: string, id: string) => {
     await databaseUpdateItem(`userdata/todos/${uid}`, id, {
       done: !item.done,
     });
-    return {
-      result: "success",
-    };
+    return ActionResponseSuccess();
   } catch (error) {
-    return {
-      result: "error",
-      message: error instanceof Error ? error.message : "Unknown error",
-    };
+    return ActionResponseError(error);
   }
 };
