@@ -1,20 +1,15 @@
-import { UserInfo } from "@/common/types/UserInfo";
+import { UserInfo } from '@/common/types/UserInfo';
 
-const IDENTIFY_TOOLKIT_BASE_URL =
-  "https://identitytoolkit.googleapis.com/v1/accounts";
-const SECURE_TOKEN_BASE_URL = "https://securetoken.googleapis.com/v1/token";
+const IDENTIFY_TOOLKIT_BASE_URL = 'https://identitytoolkit.googleapis.com/v1/accounts';
+const SECURE_TOKEN_BASE_URL = 'https://securetoken.googleapis.com/v1/token';
 const FIREBASEWEB_API_KEY = process.env.FIREBASEWEB_API_KEY;
 
-export const authSignUp = async (
-  name: string,
-  email: string,
-  password: string
-) => {
+export const authSignUp = async (name: string, email: string, password: string) => {
   const signupEndPoint = `${IDENTIFY_TOOLKIT_BASE_URL}:signUp?key=${FIREBASEWEB_API_KEY}`;
   const response = await fetch(signupEndPoint, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       email,
@@ -43,15 +38,15 @@ export const authSignUp = async (
 };
 
 export const authLogIn = async (email: string, password: string) => {
-  if (!email.includes("@") || password.length < 8) {
-    throw new Error("Invalid email or password");
+  if (!email.includes('@') || password.length < 8) {
+    throw new Error('Invalid email or password');
   }
 
   const loginEndPoint = `${IDENTIFY_TOOLKIT_BASE_URL}:signInWithPassword?key=${FIREBASEWEB_API_KEY}`;
   const response = await fetch(loginEndPoint, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       email,
@@ -82,12 +77,12 @@ export const authLogIn = async (email: string, password: string) => {
 export const authRefreshToken = async (refreshToken: string) => {
   const refreshTokenEndPoint = `${SECURE_TOKEN_BASE_URL}?key=${FIREBASEWEB_API_KEY}`;
   const response = await fetch(refreshTokenEndPoint, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      grant_type: "refresh_token",
+      grant_type: 'refresh_token',
       refresh_token: refreshToken,
     }),
   });
@@ -113,9 +108,9 @@ export const authUpdateUserProfile = async (
 ) => {
   const updateEndPoint = `${IDENTIFY_TOOLKIT_BASE_URL}:update?key=${FIREBASEWEB_API_KEY}`;
   const response = await fetch(updateEndPoint, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       idToken,
@@ -137,9 +132,9 @@ export const authUpdateUserProfile = async (
 export const authGetUserProfile = async (idToken: string) => {
   const lookupEndPoint = `${IDENTIFY_TOOLKIT_BASE_URL}:lookup?key=${FIREBASEWEB_API_KEY}`;
   const response = await fetch(lookupEndPoint, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ idToken }),
   });

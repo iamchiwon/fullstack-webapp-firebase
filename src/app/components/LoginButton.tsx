@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useUserState } from "@/common/states/UserState";
-import AuthController from "@/controllers/AuthController";
-import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
-import { useEffect, useState } from "react";
+import { useUserState } from '@/common/states/UserState';
+import AuthController from '@/controllers/AuthController';
+import { Button, Dialog, Flex, Text, TextField } from '@radix-ui/themes';
+import { useEffect, useState } from 'react';
 
 export const LoginButton = () => {
   const { isLogin } = useUserState();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoginAvailable, setIsLoginAvailable] = useState(false);
 
   useEffect(() => {
-    setIsLoginAvailable(email.includes("@") && password.length >= 8);
+    setIsLoginAvailable(email.includes('@') && password.length >= 8);
   }, [email, password]);
 
   if (isLogin) return null;

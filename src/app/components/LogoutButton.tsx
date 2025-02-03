@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useUserState } from "@/common/states/UserState";
-import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import { useUserState } from '@/common/states/UserState';
+import { AlertDialog, Button, Flex } from '@radix-ui/themes';
 
 export const LogoutButton = () => {
   const { isLogin, logout } = useUserState();

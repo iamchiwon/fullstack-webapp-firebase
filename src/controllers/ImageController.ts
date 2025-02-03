@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
 import {
   imagesServiceDelete,
   imagesServiceGetList,
   imagesServiceUpload,
-} from "@/services/ImagesService";
+} from '@/services/ImagesService';
 
 const getImageList = async () => {
   const response = await imagesServiceGetList();

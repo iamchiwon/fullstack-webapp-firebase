@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useUserState } from "@/common/states/UserState";
+import { useUserState } from '@/common/states/UserState';
 import {
   todoServiceAddTodo,
   todoServiceDeleteTodo,
   todoServiceGetList,
   todoServiceToggleTodo,
-} from "@/services/TodoService";
+} from '@/services/TodoService';
 
 const userState = useUserState;
 

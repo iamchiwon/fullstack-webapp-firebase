@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { Box, Button, Checkbox, Flex, TextField } from "@radix-ui/themes";
-import { Pencil } from "lucide-react";
-import { useEffect, useState } from "react";
-import { ToDoItem } from "@/common/types/ToDoItem";
-import TodoController from "@/controllers/TodoController";
-import { useUserState } from "@/common/states/UserState";
+import { Box, Button, Checkbox, Flex, TextField } from '@radix-ui/themes';
+import { Pencil } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ToDoItem } from '@/common/types/ToDoItem';
+import TodoController from '@/controllers/TodoController';
+import { useUserState } from '@/common/states/UserState';
 
 export const ToDoList = () => {
   const { uid } = useUserState();
-  const [todo, setTodo] = useState("");
+  const [todo, setTodo] = useState('');
   const [todoList, setTodoList] = useState<ToDoItem[]>([]);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const ToDoList = () => {
 
   const handleAddTodo = async () => {
     await TodoController.addTodo(todo);
-    setTodo("");
+    setTodo('');
     fetchTodoList();
   };
 
@@ -65,16 +65,9 @@ export const ToDoList = () => {
       <Box mt="4">
         {todoList.map((todo) => (
           <Flex gap="2" align="center" key={todo.id}>
-            <Checkbox
-              checked={todo.done}
-              onClick={() => handleToggleTodo(todo.id)}
-            />
+            <Checkbox checked={todo.done} onClick={() => handleToggleTodo(todo.id)} />
             {todo.content}
-            <Button
-              variant="ghost"
-              color="red"
-              onClick={() => handleDeleteTodo(todo.id)}
-            >
+            <Button variant="ghost" color="red" onClick={() => handleDeleteTodo(todo.id)}>
               DEL
             </Button>
           </Flex>
