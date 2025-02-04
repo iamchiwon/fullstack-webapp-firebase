@@ -1,19 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use server";
+'use server';
 
-import {
-  ActionResponseError,
-  ActionResponseSuccess,
-} from "@/common/types/ActionResponse";
-import { ToDoItem } from "@/common/types/ToDoItem";
-import { getUserIdFromToken } from "@/libs/firebase/auth";
+import { ActionResponseError, ActionResponseSuccess } from '@/common/types/ActionResponse';
+import { ToDoItem } from '@/common/types/ToDoItem';
+import { getUserIdFromToken } from '@/libs/firebase/auth';
 import {
   databaseCreateItem,
   databaseDeleteItem,
   databaseGetItem,
   databaseGetList,
   databaseUpdateItem,
-} from "@/libs/firebase/database";
+} from '@/libs/firebase/database';
 
 export const todoServiceGetList = async (token: string) => {
   try {

@@ -1,9 +1,9 @@
-import { ImageItem } from "@/common/types/ImageItem";
-import { fileSizeFormatter } from "@/common/utils/formatter";
-import ImageController from "@/controllers/ImageController";
-import { Box, Button, Dialog, Flex } from "@radix-ui/themes";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ImageItem } from '@/common/types/ImageItem';
+import { fileSizeFormatter } from '@/common/utils/formatter';
+import ImageController from '@/controllers/ImageController';
+import { Box, Button, Dialog, Flex } from '@radix-ui/themes';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 export const FileList = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -70,9 +70,9 @@ const ImageView = ({ item }: { item: ImageItem }) => {
           height={80}
           priority={true}
           style={{
-            width: "80px",
-            height: "80px",
-            objectFit: "cover",
+            width: '80px',
+            height: '80px',
+            objectFit: 'cover',
           }}
         />
       </Dialog.Trigger>
@@ -90,9 +90,9 @@ const ImageView = ({ item }: { item: ImageItem }) => {
             width={0}
             height={0}
             style={{
-              width: "auto",
-              height: "300px",
-              objectFit: "contain",
+              width: 'auto',
+              height: '300px',
+              objectFit: 'contain',
             }}
             unoptimized
           />

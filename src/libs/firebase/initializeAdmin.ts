@@ -1,5 +1,5 @@
-import admin from "firebase-admin";
-import { type ServiceAccount } from "firebase-admin/app";
+import admin from 'firebase-admin';
+import { type ServiceAccount } from 'firebase-admin/app';
 
 const _isInitialized = () => {
   return admin.apps.length > 0;
@@ -8,7 +8,7 @@ const _isInitialized = () => {
 const _getConfig = () => {
   const serviceAccountString = process.env.FIREBASEADMIN_CONFIG;
   if (!serviceAccountString) {
-    throw new Error("FIREBASEADMIN_CONFIG is not set");
+    throw new Error('FIREBASEADMIN_CONFIG is not set');
   }
   const serviceAccount: ServiceAccount = JSON.parse(serviceAccountString);
   return serviceAccount;

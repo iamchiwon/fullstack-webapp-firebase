@@ -37,11 +37,11 @@ Next.js App on Firebase
 ```ts
 type Response<T> =
   | {
-      result: "success";
+      result: 'success';
       data: T;
     }
   | {
-      result: "error";
+      result: 'error';
       message: string;
     };
 ```
@@ -66,7 +66,7 @@ $ npx create-next-app@latest
 
 ```ts
 export async function GET() {
-  return NextResponse.json({ message: "Hello from Next.js!" });
+  return NextResponse.json({ message: 'Hello from Next.js!' });
 }
 ```
 
@@ -101,9 +101,9 @@ const getTodoList = async () => {
 };
 
 // TodoActions.ts
-("use server");
+('use server');
 export const getTodoListAction = async () => {
-  const todos = await databaseGetList("todos");
+  const todos = await databaseGetList('todos');
   return todos.map(mapToToItem);
 };
 

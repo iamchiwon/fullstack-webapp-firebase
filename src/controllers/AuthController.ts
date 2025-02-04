@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useUserState } from "@/common/states/UserState";
-import { authServiceLogin, authServiceSignup } from "@/services/AuthService";
+import { useUserState } from '@/common/states/UserState';
+import { authServiceLogin, authServiceSignup } from '@/services/AuthService';
 
 const login = async (email: string, password: string) => {
   const { setUserInfo } = useUserState.getState();

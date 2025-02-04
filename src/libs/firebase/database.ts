@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { getFirestore } from "firebase-admin/firestore";
-import { ensureFirebaseAdminInitialized } from "./initializeAdmin";
+import { getFirestore } from 'firebase-admin/firestore';
+import { ensureFirebaseAdminInitialized } from './initializeAdmin';
 
 const getDB = async () => {
   await ensureFirebaseAdminInitialized();
@@ -15,11 +15,7 @@ export const databaseCreateItem = async <T>(ref: string, item: T) => {
   return doc.id;
 };
 
-export const databaseCreateItemWithId = async <T>(
-  ref: string,
-  id: string,
-  item: T
-) => {
+export const databaseCreateItemWithId = async <T>(ref: string, id: string, item: T) => {
   const db = await getDB();
   const collection = db.collection(ref);
   await collection.doc(id).set(item as any);
@@ -35,7 +31,7 @@ export const databaseGetList = async <T>(ref: string) => {
       ({
         id: doc.id,
         ...doc.data(),
-      } as T)
+      }) as T
   ) as T[];
 };
 

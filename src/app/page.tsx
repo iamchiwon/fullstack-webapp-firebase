@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { Box, Button } from "@radix-ui/themes";
-import { useState } from "react";
-import { FileList } from "./FileList";
-import { ToDoList } from "./ToDoList";
+import { Box, Button } from '@radix-ui/themes';
+import { useState } from 'react';
+import { FileList } from './FileList';
+import { ToDoList } from './ToDoList';
 
 export default function Home() {
-  const [greeting, setGreeting] = useState("");
+  const [greeting, setGreeting] = useState('');
 
   const handleGreeting = async () => {
-    const response = await fetch("/api/hello");
+    const response = await fetch('/api/hello');
     const data = await response.json();
     setGreeting(data.message);
   };

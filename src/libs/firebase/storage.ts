@@ -1,8 +1,5 @@
-import {
-  getStorage as _getStorage,
-  getDownloadURL,
-} from "firebase-admin/storage";
-import { ensureFirebaseAdminInitialized } from "./initializeAdmin";
+import { getStorage as _getStorage, getDownloadURL } from 'firebase-admin/storage';
+import { ensureFirebaseAdminInitialized } from './initializeAdmin';
 
 const getStorage = async () => {
   await ensureFirebaseAdminInitialized();

@@ -1,13 +1,13 @@
-import { create } from "zustand";
-import { UserInfo } from "@/common/types/UserInfo";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { UserInfo } from '@/common/types/UserInfo';
+import { persist } from 'zustand/middleware';
 
 const EMPTY_USER_INFO: UserInfo = {
-  uid: "",
-  displayName: "",
-  email: "",
-  token: "",
-  refreshToken: "",
+  uid: '',
+  displayName: '',
+  email: '',
+  token: '',
+  refreshToken: '',
 };
 
 interface UserState {
@@ -27,12 +27,12 @@ interface UserState {
 export const useUserState = create<UserState>()(
   persist(
     (set) => ({
-      uid: "",
-      displayName: "",
-      email: "",
+      uid: '',
+      displayName: '',
+      email: '',
       isLogin: false,
-      token: "",
-      refreshToken: "",
+      token: '',
+      refreshToken: '',
 
       setUserInfo: (credential) => {
         set({
@@ -54,6 +54,6 @@ export const useUserState = create<UserState>()(
         });
       },
     }),
-    { name: "UserState" }
+    { name: 'UserState' }
   )
 );

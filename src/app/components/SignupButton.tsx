@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useUserState } from "@/common/states/UserState";
-import AuthController from "@/controllers/AuthController";
-import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
-import { useEffect, useState } from "react";
+import { useUserState } from '@/common/states/UserState';
+import AuthController from '@/controllers/AuthController';
+import { Button, Dialog, Flex, Text, TextField } from '@radix-ui/themes';
+import { useEffect, useState } from 'react';
 
 export const SignupButton = () => {
   const { isLogin } = useUserState();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordAgain, setPasswordAgain] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordAgain, setPasswordAgain] = useState('');
   const [isSignupAvailable, setIsSignupAvailable] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const SignupButton = () => {
 
   const signup = async () => {
     if (password !== passwordAgain) {
-      alert("Password and password again are not the same");
+      alert('Password and password again are not the same');
       return;
     }
     AuthController.signup(name, email, password);
